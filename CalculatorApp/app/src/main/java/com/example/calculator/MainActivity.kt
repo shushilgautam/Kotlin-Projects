@@ -9,7 +9,89 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.util.Stack
 
+fun main(){
+    val expression="2+(3*1)-9"
+    println(infixToPostfix(expression))
+
+}
+fun evaluatePostfix(exp: String): Int {
+    val stack = ArrayDeque<Int>()
+
+    for (char in exp) {
+        when (char) {
+            in '0'..'9' -> stack.addFirst(char.toInt()-0)
+            else -> {
+                val val2 = stack.removeFirst()
+                val val1 = stack.removeFirst()
+                when (char) {
+                    '+' -> stack.addFirst(val2 + val1)
+                    '-' -> stack.addFirst(val2 - val1)
+                    '*' -> stack.addFirst(val2 * val1)
+                    '/' -> stack.addFirst(val2 / val1)
+                    else -> throw IllegalArgumentException("Invalid operator: $char")
+                }
+            }
+
+        }
+        println(stack[0])
+    }
+
+    return stack.removeFirst()
+}
+fun infixToPostfix(expression: String): Int {
+    val stack = ArrayDeque<Char>()
+    val output = StringBuilder()
+
+    for (char in expression) {
+        when (char) {
+            in '0'..'9' -> output.append(char)
+            // Append operands
+            '(' -> stack.addFirst(char)   // Push opening parentheses
+
+            ')' -> {
+                while (stack.isNotEmpty()) {
+                    val firstElement = if (stack.isNotEmpty()) stack[0] else null
+                    if (firstElement != null && firstElement != '(' && firstElement != '[' && firstElement != '{') {
+                        output.append(stack.removeFirst())
+                    } else {
+                        if (stack.isEmpty() || firstElement != '(' && firstElement != '[' && firstElement != '{') {
+                            throw IllegalArgumentException("Invalid Expression")
+                        } else {
+                            stack.removeFirst()  // Pop closing parentheses
+                        }
+                        break
+                    }
+                }
+            }
+            '+', '-', '*', '/' -> {
+                while (stack.isNotEmpty() && precedence(char) <= precedence(stack[0])) {
+                    output.append(stack.removeFirst())
+                }
+                stack.addFirst(char)  // Push operators
+            }
+            else -> throw IllegalArgumentException("Invalid character: $char")
+        }
+    }
+
+    while (stack.isNotEmpty()) {
+        output.append(stack.removeFirst())
+    }
+    println(output.toString())
+    val result=evaluatePostfix(output.toString())
+    return result
+}
+
+fun precedence(op: Char): Int {
+    return when (op) {
+        '+', '-' -> 1
+        '*', '/' -> 2
+        '(' -> 0
+        ')' -> -1
+        else -> throw IllegalArgumentException("Invalid operator: $op")
+    }
+}
 
 class MainActivity : AppCompatActivity() {
 
