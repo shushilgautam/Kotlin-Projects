@@ -4,43 +4,40 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import java.util.Stack
 
-fun main(){
-    val expression="2+(3*1)-9"
-    println(infixToPostfix(expression))
 
-}
-fun evaluatePostfix(exp: String): Int {
-    val stack = ArrayDeque<Int>()
+fun evaluatePostfix(exp: String): Any {
+    val stack = ArrayDeque<Double>()
 
     for (char in exp) {
         when (char) {
-            in '0'..'9' -> stack.addFirst(char.toInt()-0)
+            in '0'..'9' -> stack.addFirst(char.digitToInt().toDouble())
             else -> {
-                val val2 = stack.removeFirst()
-                val val1 = stack.removeFirst()
+                val val2 = stack.first()
+                stack.removeFirst()
+
+                val val1 = stack.first()
+                stack.removeFirst()
                 when (char) {
-                    '+' -> stack.addFirst(val2 + val1)
-                    '-' -> stack.addFirst(val2 - val1)
-                    '*' -> stack.addFirst(val2 * val1)
-                    '/' -> stack.addFirst(val2 / val1)
+                    '+' -> stack.addFirst(val1 + val2)
+                    '-' -> stack.addFirst(val1 - val2)
+                    '*' -> stack.addFirst(val1 * val2)
+                    '/' -> stack.addFirst(val1 / val2)
                     else -> throw IllegalArgumentException("Invalid operator: $char")
                 }
             }
 
         }
-        println(stack[0])
+        println(stack.first())
     }
 
-    return stack.removeFirst()
+    return stack.first()
 }
-fun infixToPostfix(expression: String): Int {
+private fun infixToPostfix(expression: String): Any {
     val stack = ArrayDeque<Char>()
     val output = StringBuilder()
 
@@ -83,7 +80,7 @@ fun infixToPostfix(expression: String): Int {
     return result
 }
 
-fun precedence(op: Char): Int {
+private fun precedence(op: Char): Int {
     return when (op) {
         '+', '-' -> 1
         '*', '/' -> 2
@@ -121,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         val minus = findViewById<Button>(R.id.btnMin)
         val product = findViewById<Button>(R.id.btnMul)
         val divide = findViewById<Button>(R.id.btnDiv)
-        val dot = findViewById<Button>(R.id.btnDot)
+        val del = findViewById<Button>(R.id.btnDot)
         val openBracket = findViewById<Button>(R.id.openbracket)
         val closeBracket = findViewById<Button>(R.id.closeBracket)
         btn1.setOnClickListener(View.OnClickListener { addchar_to_screen(screen, btn1) })
@@ -139,7 +136,14 @@ class MainActivity : AppCompatActivity() {
         minus.setOnClickListener(View.OnClickListener { addchar_to_screen(screen, minus) })
         product.setOnClickListener(View.OnClickListener { addchar_to_screen(screen, product) })
         divide.setOnClickListener(View.OnClickListener { addchar_to_screen(screen, divide) })
-        dot.setOnClickListener(View.OnClickListener { addchar_to_screen(screen, dot) })
+        del.setOnClickListener(View.OnClickListener {
+            var str=screen.text.toString()
+            if(str.isNotEmpty()){
+                str=str.substring(0,str.length-1)
+                screen.setText(str)
+            }
+
+        })
         openBracket.setOnClickListener(View.OnClickListener {
             addchar_to_screen(
                 screen,
@@ -162,8 +166,8 @@ class MainActivity : AppCompatActivity() {
         val equals = findViewById<Button>(R.id.btnEquals)
         equals.setOnClickListener(View.OnClickListener {
             val expression = screen.text
-            val answer = evaluateExpression(expression)
-            result.setText(answer.toString())
+            val answer = infixToPostfix(expression.toString())
+            result.setText("=  "+answer.toString())
         })
     }
 
@@ -171,31 +175,4 @@ class MainActivity : AppCompatActivity() {
         screen.setText(screen.text.toString() + btn?.text.toString())
     }
 
-    private fun evaluateExpression(expression: CharSequence?): Any {
-        var answer: Double = 0.0
-        val tokens = expression?.split("(?<=[-+*/])|(?=[-+*/])".toRegex())
-        var operator: Any? =null
-        if (tokens != null) {
-            for (token in tokens) {
-                when (token) {
-                    "+", "-", "*", "/" -> operator = token
-                    else -> {
-                        val number = token.toDouble()
-                        when (operator) {
-                            null -> answer = number
-                            '+' -> answer += number
-                            '-' -> answer -= number
-                            '*' -> answer *= number
-                            '/' -> answer /= number
-                        }
-                    }
-                }
-            }
-
-        }else{
-            Toast.makeText(this, "Token is Empty",Toast.LENGTH_SHORT)
-        }
-
-        return answer
-    }
 }
