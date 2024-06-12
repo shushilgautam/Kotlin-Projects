@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <color name="black">#FF000000</color>
+        <color name="white">#FFFFFF</color>
+        <color name="dark_blue">#222831</color>
+        <color name="grey">#393E46</color>
+        <color name="green">#007888</color>
+        <color name="neon_blue">#2F00FF</color>
+        <color name="red">#F8FF0000</color>
+        <color name="facebook_blue">#1877F2</color>
+        <color name="dark_red">#A60031</color>
+        <color name="orange">#B03F00</color>
+        <color name="community_blue">#001663</color>
+        <color name="air_blue">#72A0C1</color>
+        <color name="dark_green">#00702C</color>
+        <color name="greyButton">#303030</color>
+        <color name="sky_blue">#2284BA</color>
+        <color name="purple">#DB00D2</color>
+        <color name="ocean_blue">#002ABD</color>
+        <color name="lime_green">#00A140</color>
+        <color name="pink">#FF004D</color>
+        <color name="orange_button">#DC4F00</color>
+        <color name="yelloish_brown">#708200</color>
+</resources>
