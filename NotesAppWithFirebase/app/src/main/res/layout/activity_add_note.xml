@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             app:titleCentered="true"
             app:title="Add Note"
+            android:id="@+id/navigationBar"
             app:titleTextColor="@color/black"
             app:navigationIcon="@drawable/left_arrow"
             app:menu="@menu/navmenu"

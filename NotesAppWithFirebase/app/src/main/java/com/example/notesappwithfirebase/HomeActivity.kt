@@ -1,10 +1,13 @@
 package com.example.notesappwithfirebase
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,5 +19,9 @@ class HomeActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val addBtn=findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        addBtn.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(this,AddNote::class.java))
+        })
     }
 }
