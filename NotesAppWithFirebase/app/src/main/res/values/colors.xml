@@ -21,4 +21,13 @@
         <color name="pink">#FF004D</color>
         <color name="orange_button">#DC4F00</color>
         <color name="yelloish_brown">#708200</color>
+
+        <color name="note1">#845EC2</color>
+        <color name="note2">#2C73D2</color>
+        <color name="note3">#FFC75F</color>
+        <color name="note4">#0089BA</color>
+        <color name="note5">#008E9B</color>
+        <color name="note6">#008F7A</color>
+        <color name="note7">#FF6F91</color>
+
 </resources>
