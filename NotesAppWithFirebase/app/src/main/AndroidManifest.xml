@@ -16,13 +16,13 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".AddNote"
             android:exported="false" />
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".AddNote"
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
