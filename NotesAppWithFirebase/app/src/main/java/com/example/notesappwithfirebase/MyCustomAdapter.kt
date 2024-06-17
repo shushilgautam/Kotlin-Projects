@@ -1,13 +1,19 @@
 package com.example.notesappwithfirebase
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.card.MaterialCardView
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import java.util.ArrayList
 import kotlin.random.Random
 
@@ -40,6 +46,7 @@ class MyCustomAdapter(private val data: ArrayList<DataModel>) : RecyclerView.Ada
             intent.putExtra("note",data[position].note)
             holder.itemView.context.startActivity(intent)
         })
+
     }
     var random=-1
     private fun randomcolor():Int{

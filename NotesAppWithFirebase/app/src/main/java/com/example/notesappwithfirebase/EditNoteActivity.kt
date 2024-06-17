@@ -12,9 +12,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 
 class EditNoteActivity : AppCompatActivity() {
@@ -51,6 +53,20 @@ class EditNoteActivity : AppCompatActivity() {
                     false
                 }
             }
+        })
+        val delBtn=findViewById<ExtendedFloatingActionButton>(R.id.delete)
+        delBtn.setOnClickListener(View.OnClickListener {
+            var db=Firebase.firestore
+            db= FirebaseFirestore.getInstance()
+            db.collection("Users").document("Notes").collection(FirebaseAuth.getInstance().currentUser?.uid.toString())
+                .document(token.toString()).delete().addOnCompleteListener {
+                    if (it.isSuccessful){
+                        Toast.makeText(this,"Note Deleted",Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this,HomeActivity::class.java))
+                    }else{
+                        Toast.makeText(this,it.exception?.message.toString(),Toast.LENGTH_SHORT).show()
+                    }
+                }
         })
     }
 
