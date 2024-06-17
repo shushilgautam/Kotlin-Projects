@@ -1,5 +1,6 @@
 package com.example.notesappwithfirebase
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ class MyCustomAdapter(private val data: ArrayList<DataModel>) : RecyclerView.Ada
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemview= LayoutInflater.from(parent.context).inflate(R.layout.card_layout,parent, false)
+
         return MyViewHolder(itemview)
     }
 
@@ -31,6 +33,13 @@ class MyCustomAdapter(private val data: ArrayList<DataModel>) : RecyclerView.Ada
         holder.title.text = data[position].title
         holder.note.text = data[position].note
         holder.noteLayout.setBackgroundColor(holder.itemView.resources.getColor(randomcolor(),null))
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent= Intent(holder.itemView.context,EditNoteActivity::class.java)
+            intent.putExtra("title",data[position].title)
+            intent.putExtra("id",data[position].id)
+            intent.putExtra("note",data[position].note)
+            holder.itemView.context.startActivity(intent)
+        })
     }
     var random=-1
     private fun randomcolor():Int{
