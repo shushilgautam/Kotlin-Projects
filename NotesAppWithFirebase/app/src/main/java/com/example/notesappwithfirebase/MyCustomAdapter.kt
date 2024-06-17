@@ -32,6 +32,7 @@ class MyCustomAdapter(private val data: ArrayList<DataModel>) : RecyclerView.Ada
         holder.note.text = data[position].note
         holder.noteLayout.setBackgroundColor(holder.itemView.resources.getColor(randomcolor(),null))
     }
+    var random=-1
     private fun randomcolor():Int{
         val list = ArrayList<Int>()
         list.add(R.color.note1)
@@ -41,10 +42,10 @@ class MyCustomAdapter(private val data: ArrayList<DataModel>) : RecyclerView.Ada
         list.add(R.color.note5)
         list.add(R.color.note6)
         list.add(R.color.note7)
-        val seed = System.currentTimeMillis().toInt()
-        val random = Random(seed).nextInt(list.size)
-        return list[random]
+//        val seed = System.currentTimeMillis().toInt()
+//        val random = Random(seed).nextInt(list.size)
+
+        random++
+        return list[random%list.size]
     }
-
-
 }

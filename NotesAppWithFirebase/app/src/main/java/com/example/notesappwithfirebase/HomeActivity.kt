@@ -6,12 +6,15 @@ import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -31,7 +34,18 @@ class HomeActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val addBtn=findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        val navigationView=findViewById<MaterialToolbar>(R.id.navigationBar)
+        navigationView.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener {
+            when(it.itemId){
+                R.id.logout->{
+                    FirebaseAuth.getInstance().signOut()
+                    startActivity(Intent(this,MainActivity::class.java))
+                    true
+                }
+                else->false
+            }
+        })
+        val addBtn=findViewById<ExtendedFloatingActionButton>(R.id.floatingActionButton)
         addBtn.setOnClickListener(View.OnClickListener {
             startActivity(Intent(this,AddNote::class.java))
         })
